@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DefaultErrorViewStyle">
+        <item name="ev_imageSize">120dp</item>
+        <item name="ev_retryColor">@color/colorAccent</item>>
+    </style>
+
 </resources>

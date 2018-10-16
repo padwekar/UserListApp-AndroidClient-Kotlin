@@ -1,11 +1,10 @@
 package com.example.saurabh.userappmvp.base
 
 import android.content.Intent
-import com.example.saurabh.userappmvp.ui.BasePresenter
+import android.support.v4.app.Fragment
 
-interface BaseView<T : BasePresenter> {
-    fun setPresenter(presenter: T)
-    fun openFragment(id : Int,fragment: BaseFragment<T>){
+interface BaseView<T> {
+    fun openFragment(id : Int,fragment: Fragment){
 
     }
     fun openActivityIntent(intent : Intent){

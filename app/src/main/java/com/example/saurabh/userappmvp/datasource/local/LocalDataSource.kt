@@ -1,24 +1,21 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.example.saurabh.userappmvp.datasource.local
 
 import com.example.saurabh.userappmvp.datasource.model.User
-import io.reactivex.Single
+import javax.inject.Inject
 
 class LocalDataSource : LocalDataSourceContract {
-    override fun fetchUser() : Single<List<User>> = Single.create{
 
-    }
+    private lateinit var localDbHelper: LocalDbHelper
 
-    override fun updateUser(user: User) : Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun fetchUserList() = localDbHelper.fetchUserList()
 
-    override fun deleteUser(user: User) : Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun updateUser(user: User) = localDbHelper updateUser user
 
-    override fun addUser(user: User) : Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun deleteUser(user: User) = localDbHelper deleteUser user
+
+    override fun addUser(user: User) = localDbHelper addUser user
 
 }
 

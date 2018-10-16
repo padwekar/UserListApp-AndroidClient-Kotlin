@@ -1,22 +1,22 @@
 package com.example.saurabh.userappmvp.datasource.remote
 
 import com.example.saurabh.userappmvp.datasource.model.User
-import io.reactivex.Single
+import io.reactivex.Flowable
 
 class RemoteDataSource : RemoteDataSourceContract {
-    override fun fetchUser() : Single<List<User>> = Single.create{
-
-    }
-
-    override fun updateUser(user: User) : Single<Boolean> {
+    override fun fetchUserList() : Flowable<MutableList<User>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteUser(user: User) : Single<Boolean> {
+    override fun updateUser(user: User) : Flowable<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun addUser(user: User) : Single<Boolean>{
+    override fun deleteUser(user: User) : Flowable<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addUser(user: User) : Flowable<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

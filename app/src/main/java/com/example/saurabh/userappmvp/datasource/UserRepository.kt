@@ -1,40 +1,55 @@
 package com.example.saurabh.userappmvp.datasource
 
-import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
 import com.example.saurabh.userappmvp.datasource.model.User
-import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Flowable
+import org.reactivestreams.Publisher
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
-class UserRepository(val local : LocalDataSource,val remote : RemoteDataSource) : UserRepositoryContract {
+class UserRepository @Inject @Singleton constructor(@Named("local") val local : UserRepositoryContract,
+                                                        @Named("remote") val remote : UserRepositoryContract)
+    : UserRepositoryContract {
 
-    override fun fetchUser() : Single<List<User>> {
-        return remote.fetchUser().
-                subscribeOn(Schedulers.io()).
-                observeOn(AndroidSchedulers.mainThread())
-       }
-
-    override fun updateUser(user: User) : Single<Boolean> {
-        local.updateUser(user)
-        return Single.create{
-            remote.updateUser(user)
-        }
+    companion object {
+        var IS_CACHE_DIRTY = true
     }
 
-    override fun deleteUser(user: User) : Single<Boolean> {
-        local.deleteUser(user)
-        return Single.create{
-            remote.deleteUser(user)
+    override fun fetchUserList() : Flowable<MutableList<User>> {
+        if(!IS_CACHE_DIRTY){
+            return local.fetchUserList()
         }
+
+        return getUsersAndSave()
     }
 
-    override fun addUser(user: User) : Single<Boolean> {
-        local.addUser(user)
-        return Single.create{
-            remote.addUser(user)
-        }
+    override fun updateUser(user: User) =
+        mergeAndExecute(local.updateUser(user),remote.updateUser(user))
+
+    override fun addUser(user: User) =
+            mergeAndExecute(local.addUser(user),remote.addUser(user))
+
+    override fun deleteUser(user: User) =
+            mergeAndExecute(local.deleteUser(user),remote.deleteUser(user))
+
+    private fun getUsersAndSave() :  Flowable<MutableList<User>> {
+        return remote.fetchUserList()
+                .flatMap { user -> Flowable.fromIterable(user)
+                        .doOnNext { task -> local.addUser(task) }
+                        .toList()
+                        .toFlowable()
+                        .doOnComplete {
+                            IS_CACHE_DIRTY = false
+                        }
+                }
+    }
+
+    fun <T> mergeAndExecute(task1 : Publisher<T>,task2: Publisher<T>) : Flowable<T>{
+        return Flowable.merge(task1,task2)
+                .doOnError {
+                    IS_CACHE_DIRTY = true
+                }
+                .firstOrError()
+                .toFlowable()
     }
 }

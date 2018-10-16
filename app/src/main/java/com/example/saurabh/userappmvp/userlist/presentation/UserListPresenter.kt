@@ -1,47 +1,42 @@
 package com.example.saurabh.userappmvp.userlist.presentation
 
+import com.example.saurabh.userappmvp.base.BasePresenter
 import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.model.User
-import com.example.saurabh.userappmvp.ui.BasePresenter
-import io.reactivex.Single
-import java.util.*
+import io.reactivex.disposables.CompositeDisposable
 
-class UserListPresenter(val view : UserContract.View,val repository: UserRepository) : BasePresenter , UserContract.Presenter {
+class UserListPresenter(val view : UserContract.View?,
+                        val repository: UserRepository) : BasePresenter, UserContract.Presenter {
 
-    private fun fetchUserList() {
-         repository.fetchUser().subscribe({
-
-         },{
-
-         })
-    }
-
-    private fun addUser(){
-        repository.fetchUser().subscribe({
-
-        },{
-
-        })
-    }
-
-    private fun showDetails(){
-
-    }
-
-    override fun onAddButtonClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onUserClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    val compositeDisposable = CompositeDisposable()
 
     override fun onStart() {
-        view.showProgress()
+        view?.showProgress()
         fetchUserList()
     }
 
+    private fun fetchUserList() {
+        compositeDisposable.add(repository.fetchUserList().doOnComplete {
+                view?.showProgress(false)
+         }.subscribe(
+         {
+                view?.showUsers(it)
+                view?.updateErrorEmptyView()
+         },{
+                view?.updateErrorEmptyView("Error","Something Went Wrong!")
+         }))
+    }
 
+    override fun onAddButtonClicked() {
+        view?.showUserDetailScreen()
+    }
+
+    override fun onUserClicked(user : User) {
+        view?.showUserDetailScreen(user.id)
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+    }
 
 }

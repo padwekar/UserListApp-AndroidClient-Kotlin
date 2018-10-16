@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.saurabh.userappmvp.datasource.annotation.InRelationShipWith
-import com.example.saurabh.userappmvp.ui.BasePresenter
 
 abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
 
     open var presenter : T? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter = createPresenter()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val relationShipWith = this::class.annotations.find { it is InRelationShipWith } as? InRelationShipWith
@@ -26,4 +30,10 @@ abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
         presenter?.onStart()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter?.onDestroy()
+    }
+
+    abstract fun createPresenter() : T
 }
