@@ -7,6 +7,7 @@ import com.example.saurabh.userappmvp.datasource.remote.RemoteDbHelper
 import com.example.saurabh.userappmvp.userlist.presentation.UserListFragment
 import dagger.Component
 
+@AppScope
 @Component(modules = [RepositoryModule::class,NetworkModule::class])
 interface UserComponent {
     fun inject(userListFragment: UserListFragment)
