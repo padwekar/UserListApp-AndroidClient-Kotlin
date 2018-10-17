@@ -8,6 +8,7 @@ import com.example.saurabh.userappmvp.base.BaseFragment
 import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.annotation.InRelationShipWith
 import com.example.saurabh.userappmvp.datasource.model.User
+import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import com.example.saurabh.userappmvp.extenstion.replace
 import com.example.saurabh.userappmvp.updateuser.UserAddUpdateFragment
 import kotlinx.android.synthetic.main.fragment_user_list.*
@@ -29,17 +30,18 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
 
     override fun createPresenter() = UserListPresenter(this,repository)
 
+    init {
+        DaggerUserComponent.create().inject(this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView.layoutManager = LinearLayoutManager(this@UserListFragment.context)
         recyclerView.adapter = adapter
     }
 
-    override fun showProgress(visible: Boolean) {
-        progressBar.visibility = when(visible) {
-            true -> View.VISIBLE
-            false -> View.GONE
-        }
+    override fun updateProgressVisibility(visibility: Int) {
+        progressBar.visibility = visibility
     }
 
     override fun showUsers(users : MutableList<User>) {

@@ -1,5 +1,6 @@
 package com.example.saurabh.userappmvp.userlist.presentation
 
+import android.view.View.VISIBLE
 import com.example.saurabh.userappmvp.base.BasePresenter
 import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.model.User
@@ -11,13 +12,13 @@ class UserListPresenter(val view : UserContract.View?,
     val compositeDisposable = CompositeDisposable()
 
     override fun onStart() {
-        view?.showProgress()
+        view?.updateProgressVisibility(VISIBLE)
         fetchUserList()
     }
 
     private fun fetchUserList() {
         compositeDisposable.add(repository.fetchUserList().doOnComplete {
-                view?.showProgress(false)
+                view?.updateProgressVisibility()
          }.subscribe(
          {
                 view?.showUsers(it)

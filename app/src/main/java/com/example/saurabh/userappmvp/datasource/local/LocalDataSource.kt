@@ -3,11 +3,15 @@
 package com.example.saurabh.userappmvp.datasource.local
 
 import com.example.saurabh.userappmvp.datasource.model.User
+import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import javax.inject.Inject
 
-class LocalDataSource : LocalDataSourceContract {
+class LocalDataSource @Inject constructor(var localDbHelper: LocalDbHelper)  : LocalDataSourceContract {
 
-    private lateinit var localDbHelper: LocalDbHelper
+    init {
+        DaggerUserComponent.create().inject(this)
+    }
+
 
     override fun fetchUserList() = localDbHelper.fetchUserList()
 

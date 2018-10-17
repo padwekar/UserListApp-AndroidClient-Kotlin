@@ -6,9 +6,10 @@ import com.example.saurabh.userappmvp.datasource.model.User
 import io.paperdb.Paper
 import io.reactivex.Flowable
 import java.lang.Exception
+import javax.inject.Inject
 
 @Suppress("NOTHING_TO_INLINE")
-internal class LocalDbHelper : LocalDataSourceContract{
+class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
 
     private infix fun save(userList : MutableList<User>) = Paper.book().write(Constant.PaperDb.USER_LIST,userList)
 

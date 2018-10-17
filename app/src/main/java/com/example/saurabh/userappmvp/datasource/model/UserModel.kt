@@ -15,7 +15,9 @@ data class User(
 enum class Gender {
     MALE,
     FEMALE,
-    TRANSGENDER,
+    TRANSGENDER,;
+
+    fun value(): String = this.name
 }
 
 open class BaseResponse(var status : Int = -1,

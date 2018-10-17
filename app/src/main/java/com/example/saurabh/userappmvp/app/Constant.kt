@@ -3,11 +3,14 @@ package com.example.saurabh.userappmvp.app
 object Constant {
 
     object Bundle {
-        final val USER_ID = "USER_ID"
+        val USER_ID = "USER_ID"
     }
 
     object PaperDb {
-        final val USER_LIST = "USER_LIST"
+        val USER_LIST = "USER_LIST"
+    }
 
+    object URL {
+         val BASE_URL = "padwekar-todo.herokuapp.com"
     }
 }

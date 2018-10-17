@@ -1,9 +1,16 @@
 package com.example.saurabh.userappmvp.datasource.remote
 
 import com.example.saurabh.userappmvp.datasource.model.User
+import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import io.reactivex.Flowable
+import javax.inject.Inject
 
-class RemoteDataSource : RemoteDataSourceContract {
+class RemoteDataSource @Inject constructor(var remoteDbHelper: RemoteDbHelper): RemoteDataSourceContract {
+
+    init {
+        DaggerUserComponent.create().inject(this)
+    }
+
     override fun fetchUserList() : Flowable<MutableList<User>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -1,15 +1,20 @@
 package com.example.saurabh.userappmvp.datasource
 
+import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
+import com.example.saurabh.userappmvp.datasource.local.LocalDbHelper
 import com.example.saurabh.userappmvp.datasource.model.User
+import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
 import io.reactivex.Flowable
 import org.reactivestreams.Publisher
 import javax.inject.Inject
 import javax.inject.Named
-import javax.inject.Singleton
 
-class UserRepository @Inject @Singleton constructor(@Named("local") val local : UserRepositoryContract,
-                                                        @Named("remote") val remote : UserRepositoryContract)
+
+class UserRepository @Inject constructor(@Named("local") var local : UserRepositoryContract,
+                                         @Named("remote") var remote : UserRepositoryContract)
     : UserRepositoryContract {
+
+
 
     companion object {
         var IS_CACHE_DIRTY = true
