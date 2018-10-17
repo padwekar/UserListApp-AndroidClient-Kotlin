@@ -23,21 +23,16 @@ import javax.inject.Scope
 class NetworkModule {
 
     @Provides
-    fun retrofit(okHttpClient: OkHttpClient) : Retrofit  {
-        return Retrofit.Builder()
+    fun retrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Constant.URL.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-    }
 
     @Provides
-    fun httpClient(logger : HttpLoggingInterceptor): OkHttpClient {
-        val client = OkHttpClient()
-        client.interceptors().add(logger)
-        return client
-    }
+    fun httpClient(logger : HttpLoggingInterceptor) =
+            OkHttpClient.Builder().addInterceptor(logger).build()
 
     @Provides
     fun httpLoggingInterceptor() : HttpLoggingInterceptor {
@@ -46,11 +41,8 @@ class NetworkModule {
         return logger
     }
 
-
     @Provides
-    fun userOperation(retrofit: Retrofit): UserOperation {
-        return retrofit.create(UserOperation::class.java)
-    }
+    fun userOperation(retrofit: Retrofit) = retrofit.create(UserOperation::class.java)
 
 }
 
