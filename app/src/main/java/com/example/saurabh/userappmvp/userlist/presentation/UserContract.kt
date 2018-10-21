@@ -8,14 +8,14 @@ import com.example.saurabh.userappmvp.datasource.model.User
 interface UserContract {
 
     interface View : BaseView<Presenter> {
-        fun updateProgressVisibility(visibility: Int = android.view.View.GONE)
-        fun showUsers(users : MutableList<User>)
-        fun updateErrorEmptyView(title : String = "", message : String = "")
+        fun showUsers()
         fun showUserDetailScreen(userId : Int = -1)
-        fun showAddUserScreen()
     }
 
     interface Presenter : BasePresenter {
+        var userList : MutableList<User>
+        var totalItemCount : Int
+        fun userAtPosition(position : Int) = userList[position]
         fun onAddButtonClicked()
         fun onUserClicked(user : User)
         fun onRetry()

@@ -10,34 +10,30 @@ import com.example.saurabh.userappmvp.datasource.model.User
 import javax.inject.Inject
 
 @Suppress("NOTHING_TO_INLINE")
-class UserListAdapter @Inject constructor() : RecyclerView.Adapter<ViewHolder>() {
+class UserListAdapter (val presenter: UserContract.Presenter?) : RecyclerView.Adapter<ViewHolder>() {
 
-    var userList = mutableListOf<User>()
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
-        return ViewHolder(ItemUserBinding.inflate(inflater,viewGroup,false))
+        return ViewHolder(presenter,ItemUserBinding.inflate(inflater,viewGroup,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, pos: Int) {
         holder bind userAt(pos)
     }
 
-    inline fun userAt(position : Int) = userList[position]
+    inline fun userAt(position : Int) = presenter?.userAtPosition(position) ?: User()
 
-    override fun getItemCount() = userList.size
+    override fun getItemCount() : Int = presenter?.totalItemCount ?: 0
+
 }
 
-class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+class ViewHolder(val presenter: UserContract.Presenter?,val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
      infix fun bind(user : User){
          binding.setVariable(BR.user,user)
          binding.executePendingBindings()
          binding.root.setOnClickListener {
-
+             presenter?.onUserClicked(user)
          }
      }
 

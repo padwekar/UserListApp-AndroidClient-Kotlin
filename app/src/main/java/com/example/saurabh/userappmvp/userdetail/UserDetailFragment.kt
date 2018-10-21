@@ -12,6 +12,8 @@ import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.annotation.InRelationShipWith
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
+import com.example.saurabh.userappmvp.extenstion.replace
+import com.example.saurabh.userappmvp.updateuser.EditUserFragment
 import kotlinx.android.synthetic.main.fragment_user_detail.*
 import kotlinx.android.synthetic.main.layout_error_view.*
 import javax.inject.Inject
@@ -21,7 +23,9 @@ import javax.inject.Inject
 class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDetailContract.View {
 
     companion object {
-        fun newinstance()  = UserDetailFragment()
+        fun newInstance(id: Int)  = UserDetailFragment().apply {
+            userId = id
+        }
     }
 
     var userId: Int = 0
@@ -49,17 +53,14 @@ class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDet
         return binding.root
     }
 
-    override fun updateEmptyView(emptyTitle: String, emptyMessage: String, retry: () -> Unit) {
-        error_view.visibility = when (emptyTitle.isEmpty()) {
-            true -> View.GONE
-            else -> {
-                error_view.title = emptyTitle
-                error_view.subtitle = emptyMessage
-                View.VISIBLE
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        editImageView.setOnClickListener {
+            presenter?.onEditClick()
         }
-
     }
+
+
 
     override fun bindData(user: User) {
         binding.user = user
@@ -67,8 +68,22 @@ class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDet
     }
 
     override fun openEditScreen(user: User) {
-        TODO("not implemented")
+        replace(fragment = EditUserFragment.newInstance(user))
     }
+
+
+    override fun updateErrorEmptyView(title: String, message: String) {
+        error_view.visibility = when (title.isEmpty()) {
+            true -> View.GONE
+            else -> {
+                error_view.setTitle(title)
+                error_view.setSubtitle(message)
+                View.VISIBLE
+            }
+        }
+    }
+
+
 
 
 }

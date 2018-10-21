@@ -1,6 +1,7 @@
 package com.example.saurabh.userappmvp.dependency
 
 import com.example.saurabh.userappmvp.app.Constant
+import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.UserRepositoryContract
 import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
 import com.example.saurabh.userappmvp.datasource.local.LocalDbHelper
@@ -56,6 +57,8 @@ class RepositoryModule {
     fun remoteDataSource(remoteDbHelper: RemoteDbHelper) : UserRepositoryContract = RemoteDataSource(remoteDbHelper)
 
 }
+
+
 
 @Scope
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)

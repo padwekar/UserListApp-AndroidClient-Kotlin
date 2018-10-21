@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <data>
+        <import
+            name="Gender"
+            type="com.example.saurabh.userappmvp.datasource.model.Gender"/>
+        <variable
+            name="user"
+            type="com.example.saurabh.userappmvp.datasource.model.User"/>
+    </data>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/horizontalGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/leftGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/rightGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <ImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_avatar"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nameLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Name"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:background="@drawable/border_primary"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="@{user.name}"
+                android:importantForAutofill="no"
+                android:inputType="textCapSentences"
+                app:layout_constraintTop_toBottomOf="@+id/nameLabelTextView"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                tools:ignore="UnusedAttribute" />
+
+            <TextView
+                android:id="@+id/selectGendertextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="Select Gender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/selectGendertextView">
+
+                <RadioButton
+                    android:id="@+id/maleRadioButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button"
+                    android:button="@null"
+                    android:checked="@{user.gender.equals(Gender.MALE)}"
+                    android:gravity="center"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/femaleRadioButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:checked="@{user.gender.equals(Gender.FEMALE)}"
+                    android:text="Female" />
+
+                <RadioButton
+                    android:id="@+id/transgenderRadioButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_radio_button"
+                    android:button="@null"
+                    android:checked="@{user.gender.equals(Gender.TRANSGENDER)}"
+                    android:gravity="center"
+                    android:text="Transgender" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/enterAgeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Enter Age"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
+            <EditText
+                android:id="@+id/ageEditText"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:text="@{user.age.toString()}"
+                android:inputType="number"
+                android:background="@drawable/border_primary"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/enterAgeTextView" />
+
+
+
+            <TextView
+                android:id="@+id/enterDescriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Enter Description"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@id/ageEditText" />
+
+            <EditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:background="@drawable/border_primary"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/enterDescriptionTextView" />
+
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="0dp"
+                android:inputType="textCapSentences"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_red"
+                android:text="Delete"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+                app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+</layout>

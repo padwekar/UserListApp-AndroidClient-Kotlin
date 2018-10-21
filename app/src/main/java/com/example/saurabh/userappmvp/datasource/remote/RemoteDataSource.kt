@@ -2,29 +2,32 @@ package com.example.saurabh.userappmvp.datasource.remote
 
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
-import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(var remoteDbHelper: RemoteDbHelper): RemoteDataSourceContract {
 
+    override fun saveList(list: MutableList<User>): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     init {
         DaggerUserComponent.create().inject(this)
     }
 
-    override fun fetchUserList() : Flowable<MutableList<User>> = remoteDbHelper.getUsers()
+    override fun fetchUserList() : Single<MutableList<User>> = remoteDbHelper.getUsers()
 
-    override fun getUser(id: Int): Flowable<User> = remoteDbHelper.getUser(id)
+    override fun getUser(id: Int): Single<User> = remoteDbHelper.getUser(id)
 
-    override fun updateUser(user: User) : Flowable<Boolean> {
+    override fun updateUser(user: User) : Single<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteUser(user: User) : Flowable<Boolean> {
+    override fun deleteUser(user: User) : Single<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun addUser(user: User) : Flowable<Boolean>{
+    override fun addUser(user: User) : Single<Boolean>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

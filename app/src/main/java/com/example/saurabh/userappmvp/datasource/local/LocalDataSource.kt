@@ -4,11 +4,15 @@ package com.example.saurabh.userappmvp.datasource.local
 
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
-import io.reactivex.Flowable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(var localDbHelper: LocalDbHelper)  : LocalDataSourceContract {
-    override fun getUser(id: Int): Flowable<User> {
+    override fun saveList(list: MutableList<User>): Single<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getUser(id: Int): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

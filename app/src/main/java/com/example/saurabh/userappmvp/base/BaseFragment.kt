@@ -35,5 +35,12 @@ abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
         presenter?.onDestroy()
     }
 
+
+    fun pop(){
+        if(activity is BaseActivity){
+            (activity as BaseActivity).onBackPressed()
+        }
+    }
+
     abstract fun createPresenter() : T
 }

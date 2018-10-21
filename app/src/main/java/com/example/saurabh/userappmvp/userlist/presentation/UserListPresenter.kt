@@ -9,11 +9,19 @@ import io.reactivex.disposables.CompositeDisposable
 class UserListPresenter(val view : UserContract.View?,
                         val repository: UserRepository) : BasePresenter, UserContract.Presenter {
 
+    override var totalItemCount: Int
+        get() = userList.size
+        set(value){}
+
+
+    override var userList = mutableListOf<User>()
+
     val compositeDisposable = CompositeDisposable()
 
     override fun onStart() {
         fetchUserList(onSuccess = {
-            view?.showUsers(it)
+            userList = it
+            view?.showUsers()
             view?.updateErrorEmptyView()
         })
     }
@@ -22,21 +30,22 @@ class UserListPresenter(val view : UserContract.View?,
         onStart()
     }
 
-    private fun fetchUserList(onStart : () -> Unit = {  view?.updateProgressVisibility(VISIBLE) },
+    private fun fetchUserList(onStart : () -> Unit = {  view?.updateProgressVisibility(VISIBLE); view?.updateErrorEmptyView() },
                               onSuccess : (list : MutableList<User>) -> Unit,
                               onError : (it : Throwable) -> Unit = {view?.updateErrorEmptyView("Error","Something Went Wrong!")} ,
                               onComplete : () -> Unit = {  view?.updateProgressVisibility() }) {
 
-        compositeDisposable.add(repository.fetchUserList().doOnSubscribe {
-                onStart()
-        }.doOnComplete {
-                onComplete()
-         }.subscribe({
-                onSuccess(it)
-         },{
-                onError(it)
-                onComplete()
-        }))
+        compositeDisposable.add(repository.fetchUserList()
+         .doOnSubscribe { onStart()
+        }.doFinally{
+            onComplete()
+        } .subscribe(
+            {onSuccess(it)
+        },{
+            onError(it) }
+        ))
+
+
     }
 
     override fun onAddButtonClicked() {

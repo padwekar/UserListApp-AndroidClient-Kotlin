@@ -3,8 +3,10 @@
 package com.example.saurabh.userappmvp.extenstion
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import com.example.saurabh.userappmvp.R
 import com.example.saurabh.userappmvp.base.BaseFragment
 import com.example.saurabh.userappmvp.base.BasePresenter
+import kotlinx.android.synthetic.main.activity_user.view.*
 
 
 inline fun AppCompatActivity.replace(id : Int,fragment: Fragment) {
@@ -15,6 +17,6 @@ inline fun AppCompatActivity.replace(id : Int,fragment: Fragment) {
     commit()
 }
 
-inline fun Fragment.replace(id : Int, fragment: Fragment){
-
+inline fun Fragment.replace(id : Int = R.id.container, fragment: Fragment){
+    (activity as AppCompatActivity).replace(id,fragment)
 }

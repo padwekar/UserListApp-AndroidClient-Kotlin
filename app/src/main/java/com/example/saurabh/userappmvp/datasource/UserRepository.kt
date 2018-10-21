@@ -4,7 +4,7 @@ import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
 import com.example.saurabh.userappmvp.datasource.local.LocalDbHelper
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
-import io.reactivex.Flowable
+import io.reactivex.Single
 import org.reactivestreams.Publisher
 import javax.inject.Inject
 import javax.inject.Named
@@ -14,17 +14,17 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
                                          @Named("remote") var remote : UserRepositoryContract)
     : UserRepositoryContract {
 
-    override fun getUser(id: Int): Flowable<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun saveList(list: MutableList<User>): Single<Boolean> = local.saveList(list)
+
+    override fun getUser(id: Int): Single<User> =  remote.getUser(id)
 
 
     companion object {
         var IS_CACHE_DIRTY = true
     }
 
-    override fun fetchUserList() : Flowable<MutableList<User>> {
-        if(!IS_CACHE_DIRTY){
+    override fun fetchUserList() : Single<MutableList<User>> {
+        if(!IS_CACHE_DIRTY && false){
             return local.fetchUserList()
         }
         return getUsersAndSave()
@@ -39,24 +39,23 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
     override fun deleteUser(user: User) =
             mergeAndExecute(local.deleteUser(user),remote.deleteUser(user))
 
-    private fun getUsersAndSave() :  Flowable<MutableList<User>> {
+    private fun getUsersAndSave() :  Single<MutableList<User>> {
         return remote.fetchUserList()
-                .flatMap { user -> Flowable.fromIterable(user)
-                        .doOnNext { task -> local.addUser(task) }
-                        .toList()
-                        .toFlowable()
-                        .doOnComplete {
-                            IS_CACHE_DIRTY = false
-                        }
+                .doAfterSuccess{
+                    //saveList(list = it)
+                }.doAfterSuccess {
+                    IS_CACHE_DIRTY = false
+                }.doOnError {
+                    IS_CACHE_DIRTY = true
                 }
     }
 
-    fun <T> mergeAndExecute(task1 : Publisher<T>,task2: Publisher<T>) : Flowable<T>{
-        return Flowable.merge(task1,task2)
+    fun <T> mergeAndExecute(task1 : Single<T>,task2: Single<T>) : Single<T>{
+        return Single.merge(task1,task2)
                 .doOnError {
                     IS_CACHE_DIRTY = true
                 }
                 .firstOrError()
-                .toFlowable()
+
     }
 }

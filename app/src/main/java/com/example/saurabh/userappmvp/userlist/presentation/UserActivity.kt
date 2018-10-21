@@ -11,8 +11,8 @@ class UserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
-       // replace(R.id.container,UserListFragment.newInstance())
-        replace(R.id.container, UserDetailFragment.newinstance())
+        replace(R.id.container,UserListFragment.newInstance())
+     //   replace(R.id.container, UserDetailFragment.newinstance())
 
 
 

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">UserAppMvp</string>
     <string name="lbl_age">Age</string>
+    <string name="hint_name">Name</string>
 </resources>

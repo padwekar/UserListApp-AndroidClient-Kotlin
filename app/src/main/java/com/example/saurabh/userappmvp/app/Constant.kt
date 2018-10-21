@@ -4,6 +4,8 @@ object Constant {
 
     object Bundle {
         val USER_ID = "USER_ID"
+        val USER_PARCEALBLE = "USER_PARCEALBLE"
+
     }
 
     object PaperDb {

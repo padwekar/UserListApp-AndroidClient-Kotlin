@@ -18,25 +18,28 @@ class UserDetailPresenter(var userId : Int,var view : UserDetailContract.View,va
         fetchUserData(onSuccess = { it -> user = it; view.bindData(it)})
     }
 
-    override fun onEdit() {
+    override fun onDestroy() {
+        compositeDisposable.dispose()
+    }
+
+    override fun onEditClick() {
         user?.let {
             view.openEditScreen(it)
         }
     }
 
-    private fun fetchUserData(onStart : () -> Unit = { view.updateProgressVisibility(View.VISIBLE);view.updateEmptyView()},
+    private fun fetchUserData(onStart : () -> Unit = { view.updateProgressVisibility(View.VISIBLE);view.updateErrorEmptyView()},
                               onSuccess : (User) -> Unit,
-                              onError : (it : Throwable) -> Unit = {view.updateEmptyView("Error","Something Went Wrong!")} ,
+                              onError : (it : Throwable) -> Unit = {view.updateErrorEmptyView("Error","Something Went Wrong!")} ,
                               onComplete : () -> Unit = {view.updateProgressVisibility()}){
 
         compositeDisposable.add((repository.remote getUser userId ).doOnSubscribe {
             onStart()
-        }.doOnComplete {
+        }.doFinally {
             onComplete()
         }.subscribe({
             onSuccess(it)
         },{
-            onComplete()
             onError(it)
         }
         ))

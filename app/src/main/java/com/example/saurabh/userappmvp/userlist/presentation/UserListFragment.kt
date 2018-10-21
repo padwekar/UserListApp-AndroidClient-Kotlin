@@ -3,7 +3,6 @@ package com.example.saurabh.userappmvp.userlist.presentation
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.example.saurabh.userappmvp.R
@@ -13,9 +12,10 @@ import com.example.saurabh.userappmvp.datasource.annotation.InRelationShipWith
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import com.example.saurabh.userappmvp.extenstion.replace
-import com.example.saurabh.userappmvp.updateuser.UserAddUpdateFragment
+import com.example.saurabh.userappmvp.userdetail.UserDetailFragment
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import kotlinx.android.synthetic.main.layout_error_view.*
+import tr.xip.errorview.ErrorView
 import javax.inject.Inject
 
 @InRelationShipWith(R.layout.fragment_user_list)
@@ -28,7 +28,6 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
     @Inject
     lateinit var repository : UserRepository
 
-    @Inject
     lateinit var adapter : UserListAdapter
 
 
@@ -41,11 +40,17 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = UserListAdapter(presenter)
+
         recyclerView.apply {
             val linearLayoutManager = LinearLayoutManager(this@UserListFragment.context)
             layoutManager = linearLayoutManager
             adapter = this@UserListFragment.adapter
             addItemDecoration(DividerItemDecoration(this.context!!,linearLayoutManager.orientation))
+        }
+
+        error_view.setRetryListener {
+            presenter?.onRetry()
         }
 
 
@@ -55,24 +60,21 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
         progressBar.visibility = visibility
     }
 
-    override fun showUsers(users : MutableList<User>) {
-        adapter.userList = users
+    override fun showUsers() {
+        adapter.notifyDataSetChanged()
     }
 
     override fun showUserDetailScreen(userId: Int) {
-        replace(R.id.center,UserAddUpdateFragment.newInstance(userId))
+        replace(R.id.container,UserDetailFragment.newInstance(userId))
     }
 
-    override fun showAddUserScreen() {
-        replace(R.id.center,UserAddUpdateFragment.newInstance())
-    }
 
     override fun updateErrorEmptyView(title: String, message: String) {
         error_view.visibility =  when(title.isEmpty()){
             true -> View.GONE
             else -> {
-                error_view.title = title
-                error_view.subtitle = message
+                error_view.setTitle(title)
+                error_view.setSubtitle(message)
                 View.VISIBLE
             }
         }

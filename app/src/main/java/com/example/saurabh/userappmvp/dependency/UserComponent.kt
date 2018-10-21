@@ -4,6 +4,7 @@ import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDbHelper
+import com.example.saurabh.userappmvp.updateuser.EditUserFragment
 import com.example.saurabh.userappmvp.userdetail.UserDetailFragment
 import com.example.saurabh.userappmvp.userlist.presentation.UserListFragment
 import dagger.Component
@@ -17,4 +18,5 @@ interface UserComponent {
     fun inject(remoteDataSource: RemoteDataSource)
     fun inject(remoteDataSource: UserRepository)
     fun inject(remoteDbHelper: RemoteDbHelper)
+    fun inject(editUserFragment: EditUserFragment)
 }
