@@ -13,7 +13,8 @@ import javax.inject.Inject
 class UserListAdapter @Inject constructor() : RecyclerView.Adapter<ViewHolder>() {
 
     var userList = mutableListOf<User>()
-    set(_) {
+    set(value) {
+        field = value
         notifyDataSetChanged()
     }
 
@@ -35,5 +36,9 @@ class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding
      infix fun bind(user : User){
          binding.setVariable(BR.user,user)
          binding.executePendingBindings()
+         binding.root.setOnClickListener {
+
+         }
      }
+
 }

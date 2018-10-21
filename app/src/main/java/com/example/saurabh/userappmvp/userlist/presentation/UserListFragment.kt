@@ -1,8 +1,11 @@
 package com.example.saurabh.userappmvp.userlist.presentation
 
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.Toast
 import com.example.saurabh.userappmvp.R
 import com.example.saurabh.userappmvp.base.BaseFragment
 import com.example.saurabh.userappmvp.datasource.UserRepository
@@ -28,16 +31,24 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
     @Inject
     lateinit var adapter : UserListAdapter
 
-    override fun createPresenter() = UserListPresenter(this,repository)
 
     init {
         DaggerUserComponent.create().inject(this)
     }
 
+    override fun createPresenter() = UserListPresenter(this,repository)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.layoutManager = LinearLayoutManager(this@UserListFragment.context)
-        recyclerView.adapter = adapter
+
+        recyclerView.apply {
+            val linearLayoutManager = LinearLayoutManager(this@UserListFragment.context)
+            layoutManager = linearLayoutManager
+            adapter = this@UserListFragment.adapter
+            addItemDecoration(DividerItemDecoration(this.context!!,linearLayoutManager.orientation))
+        }
+
+
     }
 
     override fun updateProgressVisibility(visibility: Int) {

@@ -1,13 +1,21 @@
 package com.example.saurabh.userappmvp.datasource.remote
 
-import com.example.saurabh.userappmvp.datasource.model.User
-import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import io.reactivex.Flowable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-
 
 class RemoteDbHelper @Inject constructor(var userOperation : UserOperation) {
 
-    fun getUsers() : Flowable<MutableList<User>> = userOperation.fetchUserList()
+    fun getUsers() = this smooth userOperation.fetchUserList()
+
+
+    fun getUser(id : Int) = this smooth userOperation.getUser(id)
+
+
+    private infix fun <T :Any> smooth(flow : Flowable<T>) = flow.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
+
 
 }

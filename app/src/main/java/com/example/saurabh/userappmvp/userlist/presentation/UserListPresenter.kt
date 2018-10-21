@@ -12,20 +12,31 @@ class UserListPresenter(val view : UserContract.View?,
     val compositeDisposable = CompositeDisposable()
 
     override fun onStart() {
-        view?.updateProgressVisibility(VISIBLE)
-        fetchUserList()
+        fetchUserList(onSuccess = {
+            view?.showUsers(it)
+            view?.updateErrorEmptyView()
+        })
     }
 
-    private fun fetchUserList() {
-        compositeDisposable.add(repository.fetchUserList().doOnComplete {
-                view?.updateProgressVisibility()
-         }.subscribe(
-         {
-                view?.showUsers(it)
-                view?.updateErrorEmptyView()
+    override fun onRetry() {
+        onStart()
+    }
+
+    private fun fetchUserList(onStart : () -> Unit = {  view?.updateProgressVisibility(VISIBLE) },
+                              onSuccess : (list : MutableList<User>) -> Unit,
+                              onError : (it : Throwable) -> Unit = {view?.updateErrorEmptyView("Error","Something Went Wrong!")} ,
+                              onComplete : () -> Unit = {  view?.updateProgressVisibility() }) {
+
+        compositeDisposable.add(repository.fetchUserList().doOnSubscribe {
+                onStart()
+        }.doOnComplete {
+                onComplete()
+         }.subscribe({
+                onSuccess(it)
          },{
-                view?.updateErrorEmptyView("Error","Something Went Wrong!")
-         }))
+                onError(it)
+                onComplete()
+        }))
     }
 
     override fun onAddButtonClicked() {
@@ -33,7 +44,7 @@ class UserListPresenter(val view : UserContract.View?,
     }
 
     override fun onUserClicked(user : User) {
-        view?.showUserDetailScreen(user.id)
+        view?.showUserDetailScreen(user.id ?: 0)
     }
 
     override fun onDestroy() {

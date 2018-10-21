@@ -11,6 +11,6 @@ object Constant {
     }
 
     object URL {
-         val BASE_URL = "padwekar-todo.herokuapp.com"
+         val BASE_URL = "http://padwekar-todo.herokuapp.com"
     }
 }

@@ -14,6 +14,9 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
                                          @Named("remote") var remote : UserRepositoryContract)
     : UserRepositoryContract {
 
+    override fun getUser(id: Int): Flowable<User> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     companion object {
@@ -24,7 +27,6 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
         if(!IS_CACHE_DIRTY){
             return local.fetchUserList()
         }
-
         return getUsersAndSave()
     }
 

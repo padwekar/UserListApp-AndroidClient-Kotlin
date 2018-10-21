@@ -11,17 +11,17 @@ import javax.inject.Inject
 @Suppress("NOTHING_TO_INLINE")
 class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
 
+    override fun getUser(id: Int): Flowable<User> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private infix fun save(userList : MutableList<User>) = Paper.book().write(Constant.PaperDb.USER_LIST,userList)
 
     private inline fun performTaskOn(user : User, task : (Int,MutableList<User>) -> Unit) : Flowable<Boolean> {
 
         val users = Paper.book().read(Constant.PaperDb.USER_LIST, mutableListOf<User>())
         val index = users.indexOf(user)
-
-        when(users.indexOf(user)) {
-            -1 ->  throw Exception("User Not Found")
-            else -> task.invoke(index,users)
-        }
+        task.invoke(index,users)
 
         return Flowable.fromArray(true)
     }
@@ -50,4 +50,7 @@ class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
             this save users
         }
     }
+
+
+
 }

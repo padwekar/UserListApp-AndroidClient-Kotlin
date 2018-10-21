@@ -9,5 +9,6 @@ interface UserRepositoryContract{
     infix fun updateUser(user : User) : Flowable<Boolean>
     infix fun deleteUser(user: User) : Flowable<Boolean>
     infix fun addUser(user : User) : Flowable<Boolean>
+    infix fun getUser(id : Int) : Flowable<User>
 
 }

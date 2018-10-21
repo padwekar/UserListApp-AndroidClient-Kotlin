@@ -18,6 +18,7 @@ interface UserContract {
     interface Presenter : BasePresenter {
         fun onAddButtonClicked()
         fun onUserClicked(user : User)
+        fun onRetry()
     }
 
 }

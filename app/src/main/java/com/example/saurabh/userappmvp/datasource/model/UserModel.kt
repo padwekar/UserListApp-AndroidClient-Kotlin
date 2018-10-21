@@ -1,15 +1,15 @@
 package com.example.saurabh.userappmvp.datasource.model
 
-import android.os.Message
 import android.os.SystemClock
+import java.util.*
 
 data class User(
-        var id : Int,
-        var name : String,
-        var gender : Gender = Gender.MALE,
-        var age : Int,
-        var description: String,
-        var updatedTime : String = SystemClock.currentThreadTimeMillis().toString()
+        var id : Int? = null,
+        var name : String ?= null,
+        var gender : Gender ?= null,
+        var age : Int? = null,
+        var description: String ?= null,
+        var updatedTime : String ?= Calendar.getInstance().timeInMillis.toString()
 ) : BaseResponse()
 
 enum class Gender {
