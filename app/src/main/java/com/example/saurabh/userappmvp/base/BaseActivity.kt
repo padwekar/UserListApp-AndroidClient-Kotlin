@@ -9,4 +9,8 @@ abstract class BaseActivity : AppCompatActivity() {
             else -> super.onBackPressed()
     }
 
+    fun backButtonEnabled(enabled: Boolean = true){
+        supportActionBar?.setDisplayHomeAsUpEnabled(enabled)
+    }
+
 }

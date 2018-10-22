@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import
             name="Gender"
@@ -11,15 +11,31 @@
     </data>
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
-
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <android.support.constraint.Guideline
                 android:id="@+id/horizontalGuideline"
@@ -49,10 +65,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_avatar"
-                app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline"
                 app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -68,19 +82,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/nameEditText"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:background="@drawable/border_primary"
                 android:layout_margin="16dp"
+                android:background="@drawable/border_primary"
                 android:gravity="center"
-                android:text="@{user.name}"
                 android:importantForAutofill="no"
                 android:inputType="textCapSentences"
-                app:layout_constraintTop_toBottomOf="@+id/nameLabelTextView"
-                app:layout_constraintBottom_toTopOf="@+id/horizontalGuideline"
+                android:padding="8dp"
+                android:text="@{user.name}"
                 app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/nameLabelTextView"
                 tools:ignore="UnusedAttribute" />
 
             <TextView
@@ -94,10 +108,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/genderRadioGroup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -158,13 +172,14 @@
                 android:text="Enter Age"
                 app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-                app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@id/genderRadioGroup" />
 
             <EditText
                 android:id="@+id/ageEditText"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_margin="16dp"
+                android:padding="8dp"
                 android:text="@{user.age.toString()}"
                 android:inputType="number"
                 android:background="@drawable/border_primary"
@@ -191,6 +206,7 @@
             <EditText
                 android:id="@+id/descriptionEditText"
                 android:layout_width="0dp"
+                android:padding="8dp"
                 android:layout_height="100dp"
                 android:background="@drawable/border_primary"
                 android:layout_margin="16dp"
@@ -213,6 +229,8 @@
 
 
         </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
 
     </ScrollView>
 </layout>

@@ -15,7 +15,7 @@ interface UserOperation {
     @GET("getUser")
     infix fun getUser(@Query("id") id : Int) : Single<User>
 
-    @POST("update")
+    @POST("updateUser")
     infix fun updateUser(@Body user : User) : Single<User>
 
     @POST("delete")

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @Suppress("NOTHING_TO_INLINE")
 class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
-    override fun saveList(list: MutableList<User>): Single<Boolean> {
+    override fun saveList(list: MutableList<User>): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -20,23 +20,24 @@ class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
 
     private infix fun save(userList : MutableList<User>) = Paper.book().write(Constant.PaperDb.USER_LIST,userList)
 
-    private inline fun performTaskOn(user : User, task : (Int,MutableList<User>) -> Unit) : Single<Boolean> {
+    private inline fun performTaskOn(user : User, task : (Int,MutableList<User>) -> Unit) : Single<User> {
 
         val users = Paper.book().read(Constant.PaperDb.USER_LIST, mutableListOf<User>())
         val index = users.indexOf(user)
         task.invoke(index,users)
 
-        return Single.just(true)
+        return Single.just(user)
+
     }
 
-    override infix fun deleteUser(user: User): Single<Boolean> {
+    override infix fun deleteUser(user: User): Single<User> {
         return performTaskOn(user){ _ ,users ->
             users.remove(user)
             this save users
         }
     }
 
-    override infix fun addUser(user: User): Single<Boolean> {
+    override infix fun addUser(user: User): Single<User> {
         return performTaskOn(user){ _ ,users ->
             users.add(user)
             this save users
@@ -47,7 +48,7 @@ class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
         return Single.just(Paper.book().read(USER_LIST, mutableListOf()))
     }
 
-    override infix fun updateUser(user: User) : Single<Boolean> {
+    override infix fun updateUser(user: User) : Single<User> {
         return  performTaskOn(user){ index,users ->
             users[index] = user
             this save users

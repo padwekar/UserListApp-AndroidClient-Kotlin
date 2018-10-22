@@ -10,6 +10,8 @@ interface EditUserContract {
     interface View : BaseView<Presenter>{
         fun close()
         fun bind(user: User)
+        fun getFieldEntriesAsUsers() : User
+        fun showSnackMessage(message : String)
     }
 
     interface Presenter : BasePresenter {

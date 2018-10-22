@@ -6,10 +6,10 @@ import io.reactivex.Single
 interface UserRepositoryContract{
 
     fun fetchUserList() : Single<MutableList<User>>
-    fun saveList(list : MutableList<User>) : Single<Boolean>
-    infix fun updateUser(user : User) : Single<Boolean>
-    infix fun deleteUser(user: User) : Single<Boolean>
-    infix fun addUser(user : User) : Single<Boolean>
+    fun saveList(list : MutableList<User>) : Single<User>
+    infix fun updateUser(user : User) : Single<User>
+    infix fun deleteUser(user: User) : Single<User>
+    infix fun addUser(user : User) : Single<User>
     infix fun getUser(id : Int) : Single<User>
 
 }

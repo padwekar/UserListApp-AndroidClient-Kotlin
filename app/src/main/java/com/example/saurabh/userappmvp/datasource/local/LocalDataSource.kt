@@ -8,7 +8,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(var localDbHelper: LocalDbHelper)  : LocalDataSourceContract {
-    override fun saveList(list: MutableList<User>): Single<Boolean> {
+    override fun saveList(list: MutableList<User>): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

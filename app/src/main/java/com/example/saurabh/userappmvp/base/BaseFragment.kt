@@ -13,6 +13,7 @@ abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        backButtonEnabled()
         presenter = createPresenter()
     }
 
@@ -33,6 +34,12 @@ abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         presenter?.onDestroy()
+    }
+
+    fun backButtonEnabled(enabled : Boolean = true){
+        if(activity is BaseActivity){
+            (activity as BaseActivity).backButtonEnabled(enabled)
+        }
     }
 
 

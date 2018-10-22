@@ -14,7 +14,7 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
                                          @Named("remote") var remote : UserRepositoryContract)
     : UserRepositoryContract {
 
-    override fun saveList(list: MutableList<User>): Single<Boolean> = local.saveList(list)
+    override fun saveList(list: MutableList<User>): Single<User> = local.saveList(list)
 
     override fun getUser(id: Int): Single<User> =  remote.getUser(id)
 

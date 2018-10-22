@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(var remoteDbHelper: RemoteDbHelper): RemoteDataSourceContract {
 
-    override fun saveList(list: MutableList<User>): Single<Boolean> {
+    override fun saveList(list: MutableList<User>): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -19,15 +19,14 @@ class RemoteDataSource @Inject constructor(var remoteDbHelper: RemoteDbHelper): 
 
     override fun getUser(id: Int): Single<User> = remoteDbHelper.getUser(id)
 
-    override fun updateUser(user: User) : Single<Boolean> {
+    override fun updateUser(user: User) : Single<User> = remoteDbHelper.updateUser(user) //created functions use File | Settings | File Templates.
+
+
+    override fun deleteUser(user: User) : Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteUser(user: User) : Single<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun addUser(user: User) : Single<Boolean>{
+    override fun addUser(user: User) : Single<User>{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

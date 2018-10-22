@@ -2,9 +2,8 @@ package com.example.saurabh.userappmvp.userdetail
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import com.example.saurabh.userappmvp.R
 import com.example.saurabh.userappmvp.base.BaseFragment
 import com.example.saurabh.userappmvp.databinding.FragmentUserDetailBinding
@@ -49,6 +48,7 @@ class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDet
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        setHasOptionsMenu(true);
         binding = FragmentUserDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,8 +59,6 @@ class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDet
             presenter?.onEditClick()
         }
     }
-
-
 
     override fun bindData(user: User) {
         binding.user = user
@@ -83,7 +81,21 @@ class UserDetailFragment : BaseFragment<UserDetailContract.Presenter>(), UserDet
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        activity?.menuInflater?.inflate(R.menu.user_edit_menu,menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        super.onOptionsItemSelected(item)
+        when(item?.itemId){
+            R.id.editMenuItem -> {
+                presenter?.onEditClick()
+
+            }
+        }
+        return true
+    }
 
 
 }

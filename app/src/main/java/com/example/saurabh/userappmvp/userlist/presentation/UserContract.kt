@@ -10,6 +10,7 @@ interface UserContract {
     interface View : BaseView<Presenter> {
         fun showUsers()
         fun showUserDetailScreen(userId : Int = -1)
+
     }
 
     interface Presenter : BasePresenter {

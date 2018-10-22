@@ -21,6 +21,8 @@ import javax.inject.Inject
 @InRelationShipWith(R.layout.fragment_user_list)
 class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.View {
 
+
+
     companion object {
         fun newInstance() = UserListFragment()
     }
@@ -41,6 +43,7 @@ class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.V
         super.onViewCreated(view, savedInstanceState)
 
         adapter = UserListAdapter(presenter)
+        backButtonEnabled(false)
 
         recyclerView.apply {
             val linearLayoutManager = LinearLayoutManager(this@UserListFragment.context)
