@@ -35,8 +35,10 @@ class EditUserPresenter (var user : User?,var view : EditUserContract.View?,var 
 
     override fun onSaveClick() {
 
+        //Get User
         user = view?.getFieldEntriesAsUsers()
 
+        //Check if it is valid
         (this isUserValid user!!).apply {
             if(!first){
                 view?.showSnackMessage(second ?: "Something went wrong.")
@@ -44,6 +46,7 @@ class EditUserPresenter (var user : User?,var view : EditUserContract.View?,var 
             }
         }
 
+        //Save to server
         saveUser()
 
     }
