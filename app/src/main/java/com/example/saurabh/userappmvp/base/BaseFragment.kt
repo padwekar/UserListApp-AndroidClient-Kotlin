@@ -42,7 +42,6 @@ abstract class BaseFragment<T : BasePresenter> : DialogFragment() {
         }
     }
 
-
     fun pop(){
         if(activity is BaseActivity){
             (activity as BaseActivity).onBackPressed()

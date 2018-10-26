@@ -22,7 +22,7 @@ class UserListAdapter (val presenter: UserContract.Presenter?) : RecyclerView.Ad
         holder bind userAt(pos)
     }
 
-    inline fun userAt(position : Int) = presenter?.userAtPosition(position) ?: User()
+    private inline fun userAt(position : Int) = presenter?.userAtPosition(position) ?: User()
 
     override fun getItemCount() : Int = presenter?.totalItemCount ?: 0
 
@@ -30,11 +30,15 @@ class UserListAdapter (val presenter: UserContract.Presenter?) : RecyclerView.Ad
 
 class ViewHolder(val presenter: UserContract.Presenter?,val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
      infix fun bind(user : User){
-         binding.setVariable(BR.user,user)
-         binding.executePendingBindings()
-         binding.root.setOnClickListener {
-             presenter?.onUserClicked(user)
+
+         binding.apply {
+             setVariable(BR.user,user)
+             executePendingBindings()
+             root.setOnClickListener {
+                 presenter?.onUserClicked(user)
+             }
          }
+
      }
 
 }

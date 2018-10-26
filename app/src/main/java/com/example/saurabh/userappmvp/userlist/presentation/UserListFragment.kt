@@ -21,8 +21,6 @@ import javax.inject.Inject
 @InRelationShipWith(R.layout.fragment_user_list)
 class UserListFragment() : BaseFragment<UserContract.Presenter>(),UserContract.View {
 
-
-
     companion object {
         fun newInstance() = UserListFragment()
     }
