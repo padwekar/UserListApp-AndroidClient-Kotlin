@@ -2,10 +2,9 @@ package com.example.saurabh.userappmvp.datasource.remote
 
 import com.example.saurabh.userappmvp.datasource.model.User
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.*
 
 interface UserOperation {
 
@@ -23,6 +22,10 @@ interface UserOperation {
 
     @POST("add")
     infix fun addUser(@Body user : User) : Single<User>
+
+    @Multipart
+    @POST("convertAabToApk")
+    fun convertBundleToApk(@Part bundleFile: MultipartBody.Part?): Single<ResponseBody>
 
 
 }

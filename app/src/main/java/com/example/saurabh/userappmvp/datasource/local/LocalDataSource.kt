@@ -5,6 +5,9 @@ package com.example.saurabh.userappmvp.datasource.local
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.dependency.DaggerUserComponent
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.Part
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(var localDbHelper: LocalDbHelper)  : LocalDataSourceContract {
@@ -14,6 +17,10 @@ class LocalDataSource @Inject constructor(var localDbHelper: LocalDbHelper)  : L
 
     override fun getUser(id: Int): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun convertBundleToApk(@Part bundleFile: MultipartBody.Part?): Single<ResponseBody> {
+        TODO("Not yet implemented")
     }
 
     init {

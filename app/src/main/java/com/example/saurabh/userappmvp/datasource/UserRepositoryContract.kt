@@ -2,6 +2,9 @@ package com.example.saurabh.userappmvp.datasource
 
 import com.example.saurabh.userappmvp.datasource.model.User
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.Part
 
 interface UserRepositoryContract{
 
@@ -11,5 +14,5 @@ interface UserRepositoryContract{
     infix fun deleteUser(user: User) : Single<User>
     infix fun addUser(user : User) : Single<User>
     infix fun getUser(id : Int) : Single<User>
-
+    infix fun convertBundleToApk(@Part bundleFile: MultipartBody.Part?): Single<ResponseBody>
 }

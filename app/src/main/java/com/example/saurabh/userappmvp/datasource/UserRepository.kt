@@ -5,7 +5,9 @@ import com.example.saurabh.userappmvp.datasource.local.LocalDbHelper
 import com.example.saurabh.userappmvp.datasource.model.User
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import org.reactivestreams.Publisher
+import retrofit2.http.Part
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -17,6 +19,9 @@ class UserRepository @Inject constructor(@Named("local") var local : UserReposit
     override fun saveList(list: MutableList<User>): Single<User> = local.saveList(list)
 
     override fun getUser(id: Int): Single<User> =  remote.getUser(id)
+
+    override fun convertBundleToApk(@Part bundleFile: MultipartBody.Part?)
+        = remote.convertBundleToApk(bundleFile)
 
 
     companion object {

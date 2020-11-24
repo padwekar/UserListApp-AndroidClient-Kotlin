@@ -5,6 +5,9 @@ import com.example.saurabh.userappmvp.app.Constant.PaperDb.USER_LIST
 import com.example.saurabh.userappmvp.datasource.model.User
 import io.paperdb.Paper
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.Part
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -16,6 +19,10 @@ class LocalDbHelper @Inject constructor() : LocalDataSourceContract{
 
     override fun getUser(id: Int): Single<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun convertBundleToApk(@Part bundleFile: MultipartBody.Part?): Single<ResponseBody> {
+        TODO("Not yet implemented")
     }
 
     private infix fun save(userList : MutableList<User>) = Paper.book().write(Constant.PaperDb.USER_LIST,userList)

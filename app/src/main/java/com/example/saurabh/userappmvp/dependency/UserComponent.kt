@@ -4,6 +4,7 @@ import com.example.saurabh.userappmvp.datasource.UserRepository
 import com.example.saurabh.userappmvp.datasource.local.LocalDataSource
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDataSource
 import com.example.saurabh.userappmvp.datasource.remote.RemoteDbHelper
+import com.example.saurabh.userappmvp.file.FileActivity
 import com.example.saurabh.userappmvp.updateuser.EditUserFragment
 import com.example.saurabh.userappmvp.userdetail.UserDetailFragment
 import com.example.saurabh.userappmvp.userlist.presentation.UserListFragment
@@ -19,4 +20,6 @@ interface UserComponent {
     fun inject(remoteDataSource: UserRepository)
     fun inject(remoteDbHelper: RemoteDbHelper)
     fun inject(editUserFragment: EditUserFragment)
+    fun inject(fileActivity: FileActivity)
+
 }
